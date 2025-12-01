@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 
+
 app.listen(PORT, () => {
   console.log(`server is runing on port ${PORT}`);
   connectDB();
