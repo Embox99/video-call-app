@@ -19,9 +19,9 @@ export async function signup(req, res) {
       return res.status(400).json({ message: "Invalid email format" });
     }
 
-    const existingUser = User.findOne({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      res.status(400).json({
+      return res.status(400).json({
         message: "Email is already exists, please use different one",
       });
     }
@@ -69,9 +69,9 @@ export async function login(req, res) {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ message: "All fields are required" });
     }
-    const user = User.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user)
       return res.status(401).json({ message: "Invalid email or password" });
 
