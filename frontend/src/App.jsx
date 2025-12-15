@@ -19,10 +19,17 @@ const App = () => {
   } = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
-      const res = await axiosInstance.get("/auth/me");
-      return res;
+      try {
+        const res = await axiosInstance.get("/auth/me");
+        return res.data;
+      } catch (err) {
+        if (err.response && err.response.status === 401) {
+          return null;
+        }
+        throw err;
+      }
     },
-    retry: false, //auth check
+    retry: false,
   });
 
   const authUser = authData?.user;
