@@ -13,8 +13,7 @@ import useAuthUser from "./hooks/useAuthUser.js";
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
   const isAuthenticated = Boolean(authUser);
-  const isOndoarded = authUser?.isOndoarded;
-
+  const isOnboarded = authUser?.isOnboarded;
   if (isLoading) return <PageLoader />;
   return (
     <div className="h-screen" data-theme="night">
@@ -22,7 +21,7 @@ const App = () => {
         <Route
           path="/"
           element={
-            isAuthenticated && isOndoarded ? (
+            isAuthenticated && isOnboarded ? (
               <HomePage />
             ) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
@@ -54,7 +53,15 @@ const App = () => {
         <Route
           path="/onboarding"
           element={
-            isAuthenticated ? <OnboardingPage /> : <Navigate to="/login" />
+            isAuthenticated ? (
+              !isOnboarded ? (
+                <OnboardingPage />
+              ) : (
+                <Navigate to="/" />
+              )
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         ></Route>
       </Routes>

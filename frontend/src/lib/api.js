@@ -16,3 +16,12 @@ export const getAuthUser = async () => {
     throw err;
   }
 };
+
+export const completeOnboarding = async (userData) => {
+  const response = await axiosInstance.post("/auth/onboarding", userData, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.data;
+};
