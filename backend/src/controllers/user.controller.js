@@ -6,10 +6,10 @@ export async function getRecommendedUsers(req, res) {
     const currentUserId = req.user.id;
     const currentUser = req.user;
 
-    const recommendedUsers = await User({
+    const recommendedUsers = await User.find({
       $and: [
         { _id: { $ne: currentUserId } }, //exlude current user
-        { $id: { $nin: currentUser.friends } }, //exlude current user friends
+        { _id: { $nin: currentUser.friends } }, //exlude current user friends
         { isOnboarded: true },
       ],
     });
@@ -94,7 +94,7 @@ export async function acceptFriendRequest(req, res) {
         .status(403)
         .json({ message: "You are not authorized to accept this request" });
     }
-    friendRequest.status == "accepted";
+    friendRequest.status = "accepted";
     await friendRequest.save();
 
     //add each user to the other friends array
@@ -124,7 +124,7 @@ export async function getFriendRequests(req, res) {
       recipient: req.user.id,
       status: "accepted",
     }).populate("recipient", "fullName profilePic");
-    res.status(200), json({ incomingRequests, acceptedRequests });
+    res.status(200).json({ incomingRequests, acceptedRequests });
   } catch (error) {
     console.log("Error in getFriendRequests controller", error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -134,13 +134,13 @@ export async function getFriendRequests(req, res) {
 export async function getOutgoingFriendReqs(req, res) {
   try {
     const outgoingRequests = await FriendRequest.find({
-      recipient: req.user.id,
-      status: "accepted",
+      sender: req.user.id,
+      status: "pending",
     }).populate(
       "recipient",
       "fullName profilePic nativeLanguage learningLanguage"
     );
-    res.status(200).json({ outgoingRequests });
+    res.status(200).json(outgoingRequests);
   } catch (error) {
     console.log("Error in getOutgoingFriendReqs controller", error);
     res.status(500).json({ message: "Internal Server Error" });
