@@ -44,42 +44,43 @@ const NotificationPage = () => {
                   </span>
                 </h2>
                 <div className="space-y-3">
-                  {incomingRequests.map((request) => {
+                  {incomingRequests.map((request) => (
                     <div
                       key={request._id}
-                      className="card bg-base-200 shadow-sm hover:shadow-md transition-shadow"
+                      className="card bg-base-200 shadow-sm hover:shadow-md transition-shadow mb-3"
                     >
-                      <div className="card-body p-4">
-                        <div className="flex items-center justify-between"></div>
-                      </div>
-                      <div className="avatar w-14 h-14 rounded-full bg-base-300">
-                        <img
-                          src={request.sender.profilePic}
-                          alt={request.sender.fullName}
-                        />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold">
-                          {request.sender.fullName}
-                        </h3>
-                        <div className="flex flex-wrap gap-1.5 mt-1">
-                          <span className="badge badge-secondary badge-sm">
-                            Native: {request.sender.nativeLanguage}
-                          </span>
-                          <span className="badge badge-outline badge-sm">
-                            Learning: {request.sender.learningLanguage}
-                          </span>
+                      <div className="card-body p-4 flex-row items-center gap-4">
+                        {" "}
+                        <div className="avatar w-14 h-14 rounded-full">
+                          <img
+                            src={request.sender.profilePic}
+                            alt={request.sender.fullName}
+                            className="rounded-full object-cover w-full h-full"
+                          />
                         </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-lg">
+                            {request.sender.fullName}
+                          </h3>
+                          <div className="flex flex-wrap gap-1.5 mt-1">
+                            <span className="badge badge-secondary badge-sm">
+                              Native: {request.sender.nativeLanguage}
+                            </span>
+                            <span className="badge badge-outline badge-sm">
+                              Learning: {request.sender.learningLanguage}
+                            </span>
+                          </div>
+                        </div>
+                        <button
+                          className="btn btn-primary btn-sm"
+                          onClick={() => acceptRequestMutation(request._id)}
+                          disabled={isPending}
+                        >
+                          {isPending ? "..." : "Accept"}
+                        </button>
                       </div>
-                    </div>;
-                    <button
-                      className="btn btn-rpimary btn-sm"
-                      onClick={() => acceptFriendRequest(request._id)}
-                      disabled={isPending}
-                    >
-                      Accept
-                    </button>;
-                  })}
+                    </div>
+                  ))}
                 </div>
               </section>
             )}

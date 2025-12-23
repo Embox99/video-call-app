@@ -52,11 +52,11 @@ export const sendFriendRequest = async (userId) => {
   return response.data;
 };
 export const getFriendRequests = async () => {
-  const response = await axiosInstance.post(`/users/friend-request/`);
+  const response = await axiosInstance.get(`/users/friend-requests/`);
   return response.data;
 };
 export const acceptFriendRequest = async (requestId) => {
-  const response = await axiosInstance.post(
+  const response = await axiosInstance.put(
     `/users/friend-request/${requestId}/accept`
   );
   return response.data;
