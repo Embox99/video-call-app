@@ -1,4 +1,5 @@
-<h1 align="center"></h1>
+<h1 align="center">Video Calling App</h1>
+
 ![App Demo](/frontend/public/lingo.jpg)
 
 ### Key Features
